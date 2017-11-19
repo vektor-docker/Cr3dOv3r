@@ -1,0 +1,15 @@
+#!/bin/bash
+
+set -e
+
+cd /app/Cr3dOv3r
+
+if [ "$1" == "bash" ]; then
+    shift 1
+    setuser system bash $@
+elif [ "$1" == "root" ]; then
+    shift 1
+    bash $@
+else
+    setuser system python3 Cr3d0v3r.py $@
+fi
