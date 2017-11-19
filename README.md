@@ -9,5 +9,5 @@
 Данный образ предназначен для упрощения запуска этой утилиты. Просто запустите:
 
 ```bash
-docker run --rm -ti javister-docker-docker.bintray.io/vektory79/cr3dov3r:1.0 your@email.com
+docker run --rm -ti vektory79-docker-docker.bintray.io/vektory79/cr3dov3r:1.0 your@email.com
 ```
