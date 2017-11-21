@@ -17,4 +17,4 @@ done
 PROXY_ARGS="--env http_proxy=${http_proxy} \
             --env no_proxy=${no_proxy}"
 
-docker run ${PROXY_ARGS} -e PUID=$(id -u) -e PGID=$(id -g) --rm -ti javister-docker-docker.bintray.io/vektory79/cr3dov3r:1.0 $@
+docker run ${PROXY_ARGS} -e PUID=$(id -u) -e PGID=$(id -g) --rm -ti vektory79-docker-docker.bintray.io/vektory79/cr3dov3r:1.0 $@

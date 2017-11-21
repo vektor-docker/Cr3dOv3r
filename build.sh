@@ -44,6 +44,7 @@ EOF
     [ "${doPull}" == "yes" ] && docker pull javister-docker-docker.bintray.io/javister/javister-docker-git:1.0 || true
 
     docker build \
+        --build-arg DATE=${DATE} \
         --tag ${IMAGE_TAG}:latest \
         --tag ${IMAGE_TAG}:${VERSION} \
         --tag ${IMAGE_TAG}:${VERSION}-${DATE} \
