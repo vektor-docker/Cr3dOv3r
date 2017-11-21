@@ -1,23 +1,21 @@
 FROM javister-docker-docker.bintray.io/javister/javister-docker-git:1.0 as GIT
 
 RUN cd /app && \
-    git-docker clone https://github.com/D4Vinci/Cr3dOv3r.git
+    chmod 0777 /app && \
+    SET_GIT_PROXY="yes" git-docker clone https://github.com/D4Vinci/Cr3dOv3r.git
 
-FROM javister-docker-docker.bintray.io/javister/javister-docker-base:1.0
+FROM javister-docker-docker.bintray.io/javister/javister-docker-python3:1.0
 MAINTAINER Viktor Verbitsky <vektory79@gmail.com>
+
+LABEL image.date="${DATE}"
 
 COPY files /
 COPY --from=GIT /app /app/
 
-ENV HOME="/app" \
-    LOG_LEVEL="INFO" \
-    RPMLIST="python34-pip"
+ENV HOME="/app"
 
-RUN . /usr/local/bin/yum-proxy && \
-    yum-install && \
-    cd /app/Cr3dOv3r && \
+RUN cd /app/Cr3dOv3r && \
     pip3 install -r requirements.txt && \
-    yum-clean && \
     chmod --recursive --changes +x /etc/my_init.d/*.sh /etc/service /usr/local/bin
 
 ENTRYPOINT ["my_init", "--skip-runit", "--", "Cr3dOv3r"]
