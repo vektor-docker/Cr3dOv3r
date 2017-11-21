@@ -42,6 +42,7 @@ EOF
                 --build-arg no_proxy=${no_proxy}"
     [ "${doPull}" == "yes" ] && docker pull javister-docker-docker.bintray.io/javister/javister-docker-base:1.0 || true
     [ "${doPull}" == "yes" ] && docker pull javister-docker-docker.bintray.io/javister/javister-docker-git:1.0 || true
+    [ "${doPull}" == "yes" ] && docker pull javister-docker-docker.bintray.io/javister/javister-docker-python3:3.4 || true
 
     docker build \
         --build-arg DATE=${DATE} \
