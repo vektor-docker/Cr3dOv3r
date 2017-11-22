@@ -1,6 +1,7 @@
 # Docker контейнер для запуска утилиты Cr3dOv3r
 
 [ ![Download](https://api.bintray.com/packages/vektory79/docker/vektory79%3Acr3dov3r/images/download.svg) ](https://bintray.com/vektory79/docker/vektory79%3Acr3dov3r/_latestVersion)
+[![Build Status](https://travis-ci.org/vektor-docker/Cr3dOv3r.svg?branch=master)](https://travis-ci.org/vektor-docker/Cr3dOv3r)
 
 Утилита [Cr3dOv3r](https://github.com/D4Vinci/Cr3dOv3r) позволяет быстро 
 определить утекли ли ваши почтовые учётки (вместе с паролями), и на каких из 

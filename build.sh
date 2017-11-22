@@ -1,17 +1,22 @@
 #!/bin/bash -e
 
-function build() {
-    local release
-    release="dry"
-    doPull="yes"
+. ./config.properties
 
-    while getopts ":rph" opt; do
+function build() {
+    local release="dry"
+    local doPull=""
+    local downstream="no"
+
+    while getopts ":rphd" opt; do
         case $opt in
             r)
                 release="release"
                 ;;
             p)
-                doPull="no"
+                doPull="--pull --cache-from ${IMAGE_TAG}:${VERSION}"
+                ;;
+            d)
+                downstream="yes"
                 ;;
             h)
                 cat <<EOF
@@ -19,6 +24,7 @@ usage: build [OPTION]... [-- [docker build opts]]
   -h        show this help.
   -r        push resulting image.
   -p        don't pull base image.
+  -d        trigger downstream builds on Travis CI
 EOF
                 return 0;
                 ;;
@@ -34,26 +40,41 @@ EOF
     done
     shift $((OPTIND-1))
 
-    VERSION="1.0"
-    DATE=$(date +"%Y-%m-%d")
-
-    IMAGE_TAG="vektory79-docker-docker.bintray.io/vektory79/cr3dov3r"
     PROXY_ARGS="--build-arg http_proxy=${http_proxy} \
                 --build-arg no_proxy=${no_proxy}"
-    [ "${doPull}" == "yes" ] && docker pull javister-docker-docker.bintray.io/javister/javister-docker-base:1.0 || true
-    [ "${doPull}" == "yes" ] && docker pull javister-docker-docker.bintray.io/javister/javister-docker-git:1.0 || true
-    [ "${doPull}" == "yes" ] && docker pull javister-docker-docker.bintray.io/javister/javister-docker-python3:3.4 || true
+
+    [ "${doPull}" ] && docker pull ${IMAGE_TAG}:${VERSION} || true
 
     docker build \
-        --build-arg DATE=${DATE} \
+        ${doPull} \
         --tag ${IMAGE_TAG}:latest \
         --tag ${IMAGE_TAG}:${VERSION} \
         ${PROXY_ARGS} \
         $@ \
         .
 
-    [ "${release}" == "release" ] && docker push ${IMAGE_TAG}:latest
-    [ "${release}" == "release" ] && docker push ${IMAGE_TAG}:${VERSION}
+    [ "${release}" == "release" ] && docker push ${IMAGE_TAG}:latest || true
+    [ "${release}" == "release" ] && docker push ${IMAGE_TAG}:${VERSION} || true
+
+    if [ "${downstream}" == "yes" ]; then
+        while read -u 10 repo; do
+            echo "*** Trigger downstream build ${repo}"
+            URL=$(echo "${repo}" | sed -r "s/([0-9a-z_-]+).([0-9a-z_-]+)/\\1%2F\\2/g")
+
+            body='{
+            "request": {
+            "branch":"master"
+            }}'
+
+            curl -s -X POST \
+               -H "Content-Type: application/json" \
+               -H "Accept: application/json" \
+               -H "Travis-API-Version: 3" \
+               -H "Authorization: token ${TRAVIS_TOKEN}" \
+               -d "$body" \
+               https://api.travis-ci.org/repo/${URL}/requests
+        done 10<downstream.txt
+    fi
 }
 
 trap "exit 1" INT TERM QUIT

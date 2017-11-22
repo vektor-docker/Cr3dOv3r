@@ -7,10 +7,6 @@ RUN cd /app && \
 FROM javister-docker-docker.bintray.io/javister/javister-docker-python3:3.4
 MAINTAINER Viktor Verbitsky <vektory79@gmail.com>
 
-ARG DATE
-
-LABEL image.date="${DATE}"
-
 COPY files /
 COPY --from=GIT /app /app/
 
