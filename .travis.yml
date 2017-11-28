@@ -15,7 +15,7 @@ script:
 after_script:
   - docker images
 before_deploy:
-  - docker login -u "$REGISTRY_USER" -p "$REGISTRY_PASS" javister-docker-docker.bintray.io
+  - docker login -u "$REGISTRY_USER" -p "$REGISTRY_PASS" vektory79-docker-docker.bintray.io
 
 deploy:
   provider: script
