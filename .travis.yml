@@ -10,7 +10,7 @@ env:
     - REGISTRY_USER=vektory79
     - secure: td5aUZbrUlZosrY0FhN39dN38qjs5x2XC0MyVtnX+8BS8AN+m4eYIJbJ74BZKKKnR6dtuMYDUbqjscprxVjrsPEldr64XBZ7XY6aKjTu3Fu224P2HfNhDRBb+C9ohwAk7CW4i9+1knKrGfZEvZDKNbjFOnJ5Amezv8g7PQcLRYYamMA/LBXbQfVOKW4/6/pOIp0fwvTQ9s3+bFY26zOl29veM7o/JQn7/yaijV+5AN38wFY+TSbxl5GYjyQZUeGynKHufu2JTj/q8L8AYL0G1ypbR1LFDG3IWC0iA84dQzjsx2GrRJzAlVqCMQDfaPRj3NMxAuAoBPl5cyG8JpCJeX7f+I6fa51PMu8uhXOQ1yb64+VtFODc3QPzRCaYabZD1q6jzveq4uCjzYKqRxE+d3JFfrB6yIR8kjg9EhrJUa/Z1rpelBOyadMOvrnFtOUclaxhh+/gOh7oWe68LlOFPpul7hszOybOpq/bJ5kTuiVMR7E9BgOce3qivLQ43NFNilh4ipwumR7aAPOz5wNepIMb42KRH0aO9RJ5sPFl3+wBaDw3kCeqwCat1tSIfb7YWEz7mpb+tW8V2b+bppP6ARwn3ywVo69tO3v4N5dJYnSmVKVBUgRv6HN1r8Fcfq6jkN3UIlJm1Z4cEzmDzg32uZPaDJPods5n/E8MZmTNnRA=
 script:
-  - ./build.sh -p
+  - ./build.sh -pc
 
 after_script:
   - docker images
@@ -19,6 +19,6 @@ before_deploy:
 
 deploy:
   provider: script
-  script: ./build.sh -prd
+  script: ./build.sh -rdc
   on:
     branch: master
