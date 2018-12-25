@@ -1,10 +1,10 @@
-FROM javister-docker-docker.bintray.io/javister/javister-docker-git:1.0 as GIT
+FROM javister-docker-docker.bintray.io/javister/javister-docker-git:1.1 as GIT
 
 RUN cd /app && \
     chmod 0777 /app && \
     SET_GIT_PROXY="yes" git-docker clone https://github.com/D4Vinci/Cr3dOv3r.git
 
-FROM javister-docker-docker.bintray.io/javister/javister-docker-python3:3.4
+FROM javister-docker-docker.bintray.io/javister/javister-docker-python3:34.1
 MAINTAINER Viktor Verbitsky <vektory79@gmail.com>
 
 COPY files /
